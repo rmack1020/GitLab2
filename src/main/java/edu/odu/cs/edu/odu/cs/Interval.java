@@ -20,7 +20,6 @@ public class Interval {
     low = min;
     high = max;
   }
-
   /**
    * Is the interval empty? (I.e., true iff it contains no numbers.)
    * 

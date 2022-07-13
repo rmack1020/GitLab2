@@ -42,5 +42,6 @@ public class Highway {
     System.out.printf("Percentage covered: %5.1f%%%n", pct);
     input.close();
   }
+  
 
 }
