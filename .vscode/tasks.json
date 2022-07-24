@@ -1,0 +1,26 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "gradle",
+			"id": "c:\\GitLab2buildGitLab2",
+			"script": "build",
+			"description": "Assembles and tests this project.",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"project": "GitLab2",
+			"buildFile": "C:\\GitLab2\\build.gradle",
+			"rootProject": "GitLab2",
+			"projectFolder": "c:\\GitLab2",
+			"workspaceFolder": "c:\\GitLab2",
+			"args": "",
+			"javaDebug": false,
+			"problemMatcher": [
+				"$gradle"
+			],
+			"label": "gradle: build"
+		}
+	]
+}
