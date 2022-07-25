@@ -24,4 +24,51 @@ jobs:
         ssh-add <(echo "${{ secrets.REPORTS_SSH_KEY }}")      ➁
         git config --global user.email "rmack005@odu.edu"      ➂
         git config --global user.name "Project Actions"
-        ./gradlew deployWebsite  
+        ./gradlew deployWebsite 
+      run:
+      task clonePages() {                                             ➀
+    doLast {
+        mkdir 'build/gh-pages'
+        def thisRepo = rootProject.projectDir.toString()
+        def pagesDir = "$buildDir/gh-pages"
+        project.delete {
+            delete pagesDir
+        }
+        def grgit = git.clone {
+            dir = pagesDir
+            uri = 'file:' + thisRepo
+            bare = false
+            refToCheckout = 'gh-pages'
+        }
+        grgit.checkout {
+            branch = 'gh-pages'
+        }
+        grgit.close()
+    }
+}
+
+task copyReports (type: dependsOn: ['bake', 'clonePages']) {  ➁
+    doLast {
+        ant.copy (todir: 'build/gh-pages') {
+            fileset(dir: 'build/jbake')
+        }
+    }
+}
+
+task updateGHPages (dependsOn: 'copyReports') {                     ➂
+    group = "Reporting"
+    description  'Copies reports to the gh-pages branch in preparation for a future push to GitHub'
+    doLast {
+        def pagesDir = "$buildDir/gh-pages"
+        def grgit = git.open {
+            dir = pagesDir + "/.git"
+        }
+        grgit.add (update: false, patterns: ['reports/'])
+        grgit.add (update: true, patterns: ['reports/'])
+        grgit.commit {
+            message = "Updating web pages"
+        }
+        grgit.push {}
+        grgit.close()
+    }
+} 
