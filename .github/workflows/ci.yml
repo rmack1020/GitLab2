@@ -20,6 +20,4 @@ jobs:
       run: chmod +x gradlew              
     - name: Build and test
     - name: Update project website
-      run: gradle deployReports
-      run: git status
       run: git push --all
