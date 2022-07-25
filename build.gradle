@@ -1,5 +1,6 @@
 plugins {
     id  'java'
+    id "org.xbib.gradle.plugin.git" version "2.0.0"
 }
 repositories {
     mavenCentral()

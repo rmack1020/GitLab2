@@ -19,6 +19,9 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew              
     - name: Build and test
-    test {
-    ignoreFailures = true
-    }
+    - name: Update project website
+      run: eval $(ssh-agent -s -t 600)                           ➀
+        ssh-add <(echo "${{ secrets.REPORTS_SSH_KEY }}")      ➁
+        git config --global user.email "rmack005@odu.edu"      ➂
+        git config --global user.name "Project Actions"
+        ./gradlew deployWebsite  
